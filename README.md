@@ -7,3 +7,4 @@ The video is `doom.mp4`, and here a youtube link: https://www.youtube.com/watch?
 This is a evening project, fun to make but the code is crap and I didn't cared to make it better because even with forcing A2 on eink and hardware dithering it won't be better
 ### This is a half joke, I'm just proving a point.
 
+Oh and it's also using doom-generic-rs, great code thanks to that guy
