@@ -18,6 +18,10 @@ HEADERS += \
 FORMS += \
     mainwindow.ui
 
+
+INCLUDEPATH += $$PWD/qt5-kobo-platform-plugin/src
+DEPENDPATH += $$PWD/qt5-kobo-platform-plugin/src
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

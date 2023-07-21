@@ -18,11 +18,12 @@ public:
     void refresh();
     QImage image;
     QGraphicsScene* scene;
+    QGraphicsPixmapItem* item;
     QTimer* timer;
     void button(QString content);
     void stopButton(QString content);
-    int refreshDelay = 100;
-    int buttonStopDelay = 100;
+    int refreshDelay = 80;
+    int buttonStopDelay = 70;
 
 private slots:
     void on_Enter_clicked();

@@ -5,6 +5,10 @@
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
 #include <QImage>
+#include <QGraphicsPixmapItem>
+
+#include "einkenums.h"
+#include "koboplatformfunctions.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,13 +20,20 @@ MainWindow::MainWindow(QWidget *parent)
     image = QPixmap(size).toImage();
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
+    item = new QGraphicsPixmapItem();
+    scene->addItem(item);
     scene->setSceneRect(QRect(QPoint(0, 0), size));
     ui->graphicsView->setFixedSize(size);
+    ui->graphicsView->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+    ui->graphicsView->setOptimizationFlag(QGraphicsView::DontAdjustForAntialiasing);
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::refresh);
     timer->setInterval(refreshDelay);
     timer->start();
+
+    qDebug() << "Setting waveform mode";
+    KoboPlatformFunctions::setFullScreenRefreshMode(WaveForm_A2);
 }
 
 MainWindow::~MainWindow()
@@ -59,14 +70,14 @@ void MainWindow::refresh() {
             g = static_cast<quint8>(buffer[counter + 1]);
             b = static_cast<quint8>(buffer[counter + 2]);
             QColor color(r, g, b);
+            color = color.lighter(150); // This slows things down
             //qDebug() << "RGB:" << r << g << b;
             image.setPixel(x, y, color.rgb());
             counter = counter + 4;
         }
     }
-
     QPixmap pixmap = QPixmap::fromImage(image);
-    scene->addPixmap(pixmap);
+    item->setPixmap(pixmap);
 
     delete[] buffer;
 }
